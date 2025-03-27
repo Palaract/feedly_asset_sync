@@ -1,0 +1,5 @@
+{
+    "upload_url": "https://api.feedly.com/v3/enterprise/entityLists",
+    "api_key": "YOUR FEEDLY API KEY",
+    "csv_path": "PATH_TO_CSV"
+}

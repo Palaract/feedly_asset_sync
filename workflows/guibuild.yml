@@ -1,0 +1,69 @@
+name: Wails build
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        build:
+          - name: 'App'
+            platform:  'linux/amd64'
+            os: 'ubuntu-latest'
+          - name: 'App'
+            platform:  'windows/amd64'
+            os: 'windows-latest'
+          - name: 'App'
+            platform:  'darwin/universal'
+            os: 'macos-latest'
+
+    runs-on: ${{ matrix.build.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build wails
+        uses: dAppServer/wails-build-action@main
+        id: build
+        with:
+          build-name: ${{ matrix.build.name }}
+          build-platform: ${{ matrix.build.platform }}
+          package: true
+          go-version: '1.23'
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.build.name }}-${{ matrix.build.platform }}
+          path: ${{ steps.build.outputs.build-path }}
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+          
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: artifacts/**/*
+          generate_release_notes: true

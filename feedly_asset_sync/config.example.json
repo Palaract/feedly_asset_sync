@@ -1,0 +1,9 @@
+{
+    "jira_url": "URL of the Jira instance",
+    "aql_query": "AQL query to filter Jira objects",
+    "page_size": "Number of entries per page retrieved from Jira",
+    "output_filename": "Name of the output file (not used directly)",
+    "upload_url": "URL of the Feedly API",
+    "jira_api_token": "API token for accessing Jira",
+    "api_key": "API key for accessing Feedly"
+}

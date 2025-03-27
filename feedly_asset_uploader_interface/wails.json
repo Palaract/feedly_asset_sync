@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "feedly_asset_sync_gui",
+  "outputfilename": "feedly_asset_sync_gui",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Willy Mroczowski",
+    "email": "willy@mroczowski.de"
+  }
+}
